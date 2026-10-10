@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#080d16">
+  <meta name="description" content="Live developer clock powered by GitHub Pages.">
+  <title>DEV CLOCK // SYSTEM TIME</title>
+
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #080d16;
+      --panel: #0d1623;
+      --line: #1c3546;
+      --accent: #52f7c8;
+      --accent-soft: #1a806b;
+      --text: #e5f5f4;
+      --muted: #78949e;
+      --glow: rgba(82, 247, 200, 0.16);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+      background:
+        radial-gradient(ellipse at 50% 0%, #142b39 0%, transparent 55%),
+        var(--bg);
+      color: var(--text);
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono",
+        monospace;
+    }
+
+    .shell {
+      width: min(760px, 100%);
+    }
+
+    .topbar,
+    .bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      color: var(--muted);
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    .status {
+      color: var(--accent);
+    }
+
+    .panel {
+      position: relative;
+      margin: 18px 0;
+      padding: clamp(24px, 6vw, 48px);
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: linear-gradient(145deg, #101d2b, var(--panel) 65%);
+      box-shadow: 0 0 55px var(--glow);
+    }
+
+    .panel::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.2;
+      background: repeating-linear-gradient(
+        to bottom,
+        transparent 0,
+        transparent 3px,
+        rgba(120, 200, 190, 0.07) 4px
+      );
+    }
+
+    .panel-content {
+      position: relative;
+    }
+
+    .eyebrow {
+      margin: 0 0 18px;
+      color: var(--accent);
+      font-size: 11px;
+      letter-spacing: 0.2em;
+    }
+
+    #clock {
+      margin: 0;
+      color: var(--accent);
+      font-size: clamp(42px, 10vw, 88px);
+      line-height: 1.1;
+      font-weight: 700;
+      letter-spacing: -0.07em;
+      font-variant-numeric: tabular-nums;
+      text-shadow: 0 0 25px var(--glow);
+      white-space: nowrap;
+    }
+
+    #date {
+      margin-top: 20px;
+      color: var(--text);
+      font-size: clamp(12px, 2.6vw, 16px);
+      letter-spacing: 0.08em;
+    }
+
+    .divider {
+      height: 1px;
+      margin: 28px 0;
+      background: var(--line);
+    }
+
+    .details {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 22px;
+    }
+
+    .label {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--muted);
+      font-size: 10px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    .value {
+      overflow-wrap: anywhere;
+      color: var(--text);
+      font-size: clamp(13px, 2.5vw, 16px);
+    }
+
+    .bottom {
+      line-height: 1.7;
+      letter-spacing: 0.06em;
+    }
+
+    .minimal {
+      --bg: #101010;
+      --panel: #171717;
+      --line: #353535;
+      --accent: #f1f1f1;
+      --accent-soft: #777777;
+      --text: #f1f1f1;
+      --muted: #999999;
+      --glow: transparent;
+    }
+
+    .minimal body {
+      background: var(--bg);
+      font-family: system-ui, sans-serif;
+    }
+
+    .minimal .panel {
+      box-shadow: none;
+      background: var(--panel);
+    }
+
+    .minimal .panel::before {
+      display: none;
+    }
+
+    .minimal #clock {
+      text-shadow: none;
+      letter-spacing: -0.06em;
+    }
+
+    @media (max-width: 440px) {
+      .topbar,
+      .bottom {
+        font-size: 9px;
+      }
+
+      .panel {
+        padding: 24px 18px;
+      }
+
+      #clock {
+        letter-spacing: -0.08em;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        animation: none !important;
+        transition: none !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="shell">
+    <header class="topbar">
+      <span>DEV CLOCK / 001</span>
+      <span class="status">● SYSTEM ONLINE</span>
+    </header>
+
+    <section class="panel" aria-label="Live regional clock">
+      <div class="panel-content">
+        <p class="eyebrow">// LOCAL TIME SYNCHRONIZATION</p>
+
+        <h1 id="clock" aria-label="Current time">--:--:--</h1>
+        <div id="date">Loading date...</div>
+
+        <div class="divider"></div>
+
+        <div class="details">
+          <div>
+            <span class="label">Configured Region</span>
+            <span class="value" id="region">Loading...</span>
+          </div>
+
+          <div>
+            <span class="label">Timezone</span>
+            <span class="value" id="zone">Loading...</span>
+          </div>
+
+          <div>
+            <span class="label">UTC Offset</span>
+            <span class="value" id="offset">--:--</span>
+          </div>
+
+          <div>
+            <span class="label">Refresh Rate</span>
+            <span class="value">1 second</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="bottom">
+      <span id="footer-status">INITIALIZING...</span>
+      <span>BUILT FOR THE DEVVERSE</span>
+    </footer>
+  </main>
+
+  <script>
+    const $ = (id) => document.getElementById(id);
+
+    let timezone = "Asia/Kolkata";
+    let style = "cyber";
+
+    function getParts(date, options) {
+      return new Intl.DateTimeFormat("en-GB", {
+        timeZone: timezone,
+        ...options
+      }).format(date);
+    }
+
+    function getTimeZoneName(date) {
+      return getParts(date, {
+        timeZoneName: "short"
+      }).split(" ").pop();
+    }
+
+    function getOffset(date) {
+      const parts = new Intl.DateTimeFormat("en-GB", {
+        timeZone: timezone,
+        timeZoneName: "longOffset",
+        hour: "2-digit"
+      }).formatToParts(date);
+
+      return parts.find((part) => part.type === "timeZoneName")?.value
+        .replace("GMT", "UTC") ?? "Unavailable";
+    }
+
+    function updateClock() {
+      const now = new Date();
+
+      $("clock").textContent = getParts(now, {
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+        hourCycle: "h23"
+      });
+
+      $("date").textContent = getParts(now, {
+        weekday: "long",
+        day: "2-digit",
+        month: "long",
+        year: "numeric"
+      }).toUpperCase();
+
+      $("region").textContent = timezone.replaceAll("_", " ");
+      $("zone").textContent = getTimeZoneName(now);
+      $("offset").textContent = getOffset(now);
+      $("footer-status").textContent = "LIVE // " +
+        now.toISOString().slice(11, 19) + " UTC";
+    }
+
+    async function initializeClock() {
+      try {
+        const response = await fetch("./config.json", {
+          cache: "no-store"
+        });
+
+        if (!response.ok) {
+          throw new Error("Configuration could not be loaded");
+        }
+
+        const config = await response.json();
+
+        if (typeof config.timezone === "string") {
+          new Intl.DateTimeFormat("en", {
+            timeZone: config.timezone
+          });
+
+          timezone = config.timezone;
+        }
+
+        if (config.style === "minimal") {
+          document.documentElement.classList.add("minimal");
+        }
+
+        updateClock();
+        $("footer-status").textContent = "LIVE // CONFIG LOADED";
+      } catch (error) {
+        $("footer-status").textContent = "CONFIG ERROR // USING DEFAULT";
+        updateClock();
+      }
+
+      // Align updates to the next second instead of drifting over time.
+      const delay = 1000 - (Date.now() % 1000);
+      setTimeout(function tick() {
+        updateClock();
+        setInterval(updateClock, 1000);
+      }, delay);
+    }
+
+    initializeClock();
+  </script>
+</body>
+</html>
