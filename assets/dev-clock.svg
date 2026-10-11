@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg"
+  width="800" height="230" viewBox="0 0 800 230"
+  role="img" aria-labelledby="title desc">
+  <title id="title">Developer Clock</title>
+  <desc id="desc">Last generated at 21:36:47,
+  Sunday, 11 October 2026, timezone Asia/Kolkata.</desc>
+
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#101f32"/>
+      <stop offset="100%" stop-color="#070c16"/>
+    </linearGradient>
+    <linearGradient id="line" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#52f7c8"/>
+      <stop offset="100%" stop-color="#398bff"/>
+    </linearGradient>
+  </defs>
+
+  <rect x="1" y="1" width="798" height="228" rx="16"
+    fill="url(#bg)" stroke="#244357" stroke-width="1.5"/>
+
+  <path d="M24 52 H776" stroke="#244357" stroke-width="1"/>
+  <path d="M24 53 H185" stroke="url(#line)" stroke-width="2"/>
+
+  <circle cx="28" cy="28" r="4" fill="#52f7c8"/>
+  <text x="42" y="32" fill="#b4cbd6" font-size="12"
+    font-family="monospace" letter-spacing="2">
+    DEV CLOCK / SYSTEM TIME
+  </text>
+  <text x="773" y="32" text-anchor="end" fill="#52f7c8"
+    font-size="11" font-family="monospace">
+    ● SNAPSHOT
+  </text>
+
+  <text x="30" y="133" fill="#52f7c8"
+    font-size="68" font-weight="700"
+    font-family="monospace" letter-spacing="-3">
+    21:36:47
+  </text>
+
+  <text x="33" y="163" fill="#d8e8f0"
+    font-size="15" font-family="monospace">
+    Sunday, 11 October 2026
+  </text>
+
+  <path d="M30 184 H770" stroke="#244357" stroke-width="1"/>
+
+  <text x="30" y="207" fill="#819eae"
+    font-size="11" font-family="monospace">
+    REGION: Asia/Kolkata
+  </text>
+  <text x="770" y="207" text-anchor="end" fill="#52f7c8"
+    font-size="11" font-family="monospace">
+    ZONE: IST
+  </text>
+</svg>
