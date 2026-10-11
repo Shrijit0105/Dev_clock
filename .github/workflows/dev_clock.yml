@@ -113,8 +113,8 @@ jobs:
           Path("assets/dev-clock.svg").write_text(svg, encoding="utf-8")
           print(f"Generated clock for {timezone} at {now.isoformat()}")
           PY
-
-      - name: Commit updated SVG
+    
+      - name: Commit and push updated SVG
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
@@ -127,4 +127,10 @@ jobs:
           fi
 
           git commit -m "chore: refresh developer clock SVG"
-          git push
+
+          # Integrate any commits added to GitHub since checkout.
+          git fetch origin main
+          git rebase origin/main
+
+          # Push the updated branch.
+          git push origin HEAD:main
